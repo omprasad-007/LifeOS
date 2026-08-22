@@ -1,0 +1,22 @@
+# Configuration for Firebase App Hosting
+kind: AppHostingYaml
+schemaVersion: v1alpha
+
+service:
+  environment:
+    - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+      value: "AIzaSyBU-mUQa536d24ND_yJopk_POLK66DJYm8"
+    - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+      value: "lifeos-07.firebaseapp.com"
+    - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      value: "lifeos-07"
+    - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+      value: "lifeos-07.firebasestorage.app"
+    - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+      value: "530150412604"
+    - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+      value: "1:530150412604:web:04fcf16de09b9431b90e39"
+    - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+      value: "G-FSR6KX9WYE"
+    - variable: NEXTAUTH_URL
+      value: "https://lifeos-07.web.app"
