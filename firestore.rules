@@ -1,0 +1,68 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to verify user authentication
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to verify user is accessing their own data
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      
+      // Sub-collections under each user (isolated per user)
+      match /tasks/{taskId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /notes/{noteId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /reminders/{reminderId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /calendarEvents/{eventId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /documents/{docId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Root collections with userId field verification
+    match /tasks/{taskId} {
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /notes/{noteId} {
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /reminders/{reminderId} {
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /calendarEvents/{eventId} {
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /documents/{docId} {
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "tasks": {
+          ".indexOn": ["priority", "dueDate", "status"]
+        },
+        "notes": {
+          ".indexOn": ["updatedAt"]
+        },
+        "reminders": {
+          ".indexOn": ["remindAt", "status"]
+        },
+        "calendarEvents": {
+          ".indexOn": ["startTime", "endTime"]
+        }
+      }
+    }
+  }
+}
