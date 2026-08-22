@@ -14,6 +14,7 @@ import CalendarView from '@/components/calendar/CalendarView';
 import DocumentsView from '@/components/documents/DocumentsView';
 import SettingsView from '@/components/settings/SettingsView';
 import QuickCreateModal from '@/components/modals/QuickCreateModal';
+import FeedbackModal from '@/components/modals/FeedbackModal';
 import {
   TaskItem,
   NoteItem,
@@ -29,6 +30,7 @@ export default function HomePage() {
 
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
   const [isQuickCreateOpen, setIsQuickCreateOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [quickCreateDefaultTab, setQuickCreateDefaultTab] = useState<
     'task' | 'note' | 'reminder' | 'calendar' | 'document'
   >('task');
@@ -114,7 +116,13 @@ export default function HomePage() {
   return (
     <AppShell
       currentTab={currentTab}
-      onTabChange={setCurrentTab}
+      onTabChange={(tab) => {
+        if (tab === 'feedback') {
+          setIsFeedbackModalOpen(true);
+        } else {
+          setCurrentTab(tab);
+        }
+      }}
       onOpenQuickCreate={handleOpenQuickCreate}
       reminders={reminders}
       onRefreshData={fetchData}
@@ -185,6 +193,14 @@ export default function HomePage() {
         onClose={() => setIsQuickCreateOpen(false)}
         defaultTab={quickCreateDefaultTab}
         onCreated={fetchData}
+      />
+
+      {/* User Feedback Modal routed to shreyash9552@gmail.com */}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
+        userEmail={userProfile?.email || session?.user?.email || ''}
+        userName={userProfile?.name || session?.user?.name || ''}
       />
     </AppShell>
   );

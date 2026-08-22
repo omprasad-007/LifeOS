@@ -5,10 +5,12 @@ export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import FeedbackModal from '@/components/modals/FeedbackModal';
 
 export default function LandingPage() {
   const router = useRouter();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -193,6 +195,13 @@ export default function LandingPage() {
 
           {/* Right Action */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsFeedbackModalOpen(true)}
+              className="hidden sm:inline-flex items-center gap-1 px-3.5 py-2 rounded-xl font-bold text-xs text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-all border border-slate-200"
+            >
+              <span className="material-symbols-outlined text-[16px] text-indigo-600">rate_review</span>
+              <span>Feedback</span>
+            </button>
             <button
               onClick={() => { setAuthMode('signin'); setIsAuthModalOpen(true); }}
               className="hidden sm:inline-flex px-4 py-2.5 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-100 transition-all"
@@ -995,6 +1004,13 @@ export default function LandingPage() {
           </div>
         </div>
       )}
+      {/* Feedback Modal for Visitors and Users */}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
+        userEmail={email}
+        userName={name}
+      />
     </div>
   );
 }

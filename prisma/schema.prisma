@@ -93,3 +93,13 @@ model Document {
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Feedback {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String?
+  category  String   @default("GENERAL") // GENERAL, FEATURE_REQUEST, BUG, PRAISE
+  rating    Int      @default(5)
+  message   String
+  createdAt DateTime @default(now())
+}
